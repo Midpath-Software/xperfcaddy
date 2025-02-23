@@ -6,17 +6,17 @@ import (
 	"time"
 
 	"github.com/caddyserver/caddy/v2"
-	"go.uber.org/zap"
 	"github.com/caddyserver/caddy/v2/caddyconfig/caddyfile"
 	"github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile"
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp"
+	"go.uber.org/zap"
 )
 
 type responseWrapper struct {
 	http.ResponseWriter
-	start    time.Time
-	written  bool
-	logger   *zap.Logger
+	start   time.Time
+	written bool
+	logger  *zap.Logger
 }
 
 func (rw *responseWrapper) WriteHeader(status int) {
@@ -64,11 +64,11 @@ func (Middleware) CaddyModule() caddy.ModuleInfo {
 
 // ServeHTTP implements caddyhttp.MiddlewareHandler.
 func (m Middleware) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddyhttp.Handler) error {
-	
+
 	wrapper := &responseWrapper{
 		ResponseWriter: w,
-		start:         time.Now(),
-		logger:        m.logger,
+		start:          time.Now(),
+		logger:         m.logger,
 	}
 
 	err := next.ServeHTTP(wrapper, r)
