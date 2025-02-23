@@ -1,5 +1,5 @@
 {
-	order xperfacddy before reverse_proxy
+	order xperfcaddy before reverse_proxy
 	http_port 8080
 }
 
