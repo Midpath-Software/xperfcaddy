@@ -1,0 +1,13 @@
+{
+	order xperf before reverse_proxy
+	http_port 8080
+}
+
+:8080 {
+	xperf
+	reverse_proxy localhost:5000 {
+		transport http {
+			response_header_timeout 5s
+		}
+	}
+}

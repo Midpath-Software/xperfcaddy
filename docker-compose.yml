@@ -1,0 +1,10 @@
+version: '3'
+
+name: xperf
+
+services:
+  xperf:
+    image: caddy:2.9.1-builder
+    command: sh -c "while true; do date; sleep 5; done"
+    volumes:
+      - ./:/app

@@ -1,0 +1,6 @@
+.aider*
+./caddy
+.cache/
+.pki/
+caddy
+*pyc
