@@ -1,4 +1,4 @@
-package xperf
+package xperfcaddy
 
 import (
 	"fmt"
@@ -39,7 +39,7 @@ func (rw *responseWrapper) Write(b []byte) (int, error) {
 
 func init() {
 	caddy.RegisterModule(Middleware{})
-	httpcaddyfile.RegisterHandlerDirective("xperf", parseCaddyfile)
+	httpcaddyfile.RegisterHandlerDirective("xperfcaddy", parseCaddyfile)
 }
 
 // Middleware implements an HTTP handler that adds X-Perf-Caddy header
@@ -57,7 +57,7 @@ func (m *Middleware) Provision(ctx caddy.Context) error {
 // CaddyModule returns the Caddy module information.
 func (Middleware) CaddyModule() caddy.ModuleInfo {
 	return caddy.ModuleInfo{
-		ID:  "http.handlers.xperf",
+		ID:  "http.handlers.xperfcaddy",
 		New: func() caddy.Module { return new(Middleware) },
 	}
 }
@@ -89,7 +89,7 @@ func (m Middleware) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddy
 
 // UnmarshalCaddyfile implements caddyfile.Unmarshaler. Syntax:
 //
-//	xperf
+//	xperfcaddy
 func (m *Middleware) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	d.Next() // consume directive name
 	if d.NextArg() {
