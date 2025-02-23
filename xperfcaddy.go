@@ -64,8 +64,6 @@ func (Middleware) CaddyModule() caddy.ModuleInfo {
 
 // ServeHTTP implements caddyhttp.MiddlewareHandler.
 func (m Middleware) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddyhttp.Handler) error {
-	m.logger.Info("X-Perf start req",
-		zap.Any("query_params", r.URL.Query()))
 	
 	wrapper := &responseWrapper{
 		ResponseWriter: w,
@@ -79,10 +77,6 @@ func (m Middleware) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddy
 		duration := time.Since(wrapper.start)
 		w.Header().Set("X-Perf-Caddy", fmt.Sprintf("%v", duration))
 	}
-
-	m.logger.Info("X-Perf complete req",
-		zap.Any("query_params", r.URL.Query()),
-		zap.Duration("duration", time.Since(wrapper.start)))
 
 	return err
 }
