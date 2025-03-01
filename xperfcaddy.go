@@ -22,7 +22,7 @@ type responseWrapper struct {
 func (rw *responseWrapper) WriteHeader(status int) {
 	if !rw.written {
 		duration := time.Since(rw.start)
-		rw.Header().Set("X-Perf-Caddy", fmt.Sprintf("%v", duration))
+		rw.Header().Set("X-Perf-Caddy", fmt.Sprintf("%v", duration.Milliseconds()))
 		rw.written = true
 	}
 	rw.ResponseWriter.WriteHeader(status)
@@ -31,7 +31,7 @@ func (rw *responseWrapper) WriteHeader(status int) {
 func (rw *responseWrapper) Write(b []byte) (int, error) {
 	if !rw.written {
 		duration := time.Since(rw.start)
-		rw.Header().Set("X-Perf-Caddy", fmt.Sprintf("%v", duration))
+		rw.Header().Set("X-Perf-Caddy", fmt.Sprintf("%v", duration.Milliseconds()))
 		rw.written = true
 	}
 	return rw.ResponseWriter.Write(b)
@@ -75,7 +75,7 @@ func (m Middleware) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddy
 
 	if !wrapper.written {
 		duration := time.Since(wrapper.start)
-		w.Header().Set("X-Perf-Caddy", fmt.Sprintf("%v", duration))
+		w.Header().Set("X-Perf-Caddy", fmt.Sprintf("%v", duration.Milliseconds()))
 	}
 
 	return err
